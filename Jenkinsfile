@@ -11,15 +11,31 @@ pipeline {
         stage('Install Python Tools') {
             steps {
                 sh '''
-                    sudo apt-get update
-                    sudo apt-get install -y python3-pip
+                sudo dpkg --configure -a || true
+                sudo apt-get install -f -y || true
+                sudo apt-get update
+                sudo apt-get install -y python3-pip python3-venv
                 '''
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Virtual Environment') {
             steps {
-                sh 'pip3 install --user pytest'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install pytest
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                . venv/bin/activate
+                pytest
+                '''
             }
         }
     }
