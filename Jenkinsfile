@@ -26,6 +26,7 @@ pipeline {
                 . venv/bin/activate
                 pip install --upgrade pip
                 pip install pytest
+                mkdir -p reports
                 '''
             }
         }
@@ -34,8 +35,13 @@ pipeline {
             steps {
                 sh '''
                 . venv/bin/activate
-                pytest
+                pytest --junitxml=reports/results.xml
                 '''
+            }
+            post {
+                always {
+                    junit 'reports/results.xml'
+                }
             }
         }
     }
