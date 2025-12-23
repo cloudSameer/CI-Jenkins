@@ -7,5 +7,12 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install pytest'
+            }
+        }
     }
 }
+
