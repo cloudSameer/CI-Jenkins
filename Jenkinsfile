@@ -8,11 +8,19 @@ pipeline {
             }
         }
 
+        stage('Install Python Tools') {
+            steps {
+                sh '''
+                    sudo apt-get update
+                    sudo apt-get install -y python3-pip
+                '''
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install --user pytest'
+                sh 'pip3 install --user pytest'
             }
         }
     }
 }
-
