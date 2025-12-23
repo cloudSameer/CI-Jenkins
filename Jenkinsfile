@@ -1,4 +1,4 @@
-pipeline {
+ppipeline {
     agent any
 
     stages {
@@ -10,7 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install pytest'
+                sh 'python3 -m pip install --user pytest'
             }
         }
     }
